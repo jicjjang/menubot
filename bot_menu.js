@@ -20,7 +20,7 @@ const fileName = 'img/daily_menu/menu_part.png';  // [*커스텀수정필요] �
 
 // -------------------------- Function ---------------------------------------------------
 
-var menubot = menubot || {
+module.exports = {
   getMenuTime: function() {
     var date = new Date();
     var hour = date.getHours();
@@ -164,15 +164,9 @@ var menubot = menubot || {
       x: -370 + offSetX + c_width/2, y: -755 + offSetY + crop_menu/2 + 20
     }).then(image => {
       this.googleOCR(fileName);
+      console.log('[' + time + ']' + ' menu sent success!');
     }, err => {
       console.log(err);
     });
   }
 };
-
-// -------------------------- Main ---------------------------------------------------
-
-menubot.getMenuTime();
-menubot.imagecrop();
-
-console.log('[' + time + ']' + ' menu sent success!');

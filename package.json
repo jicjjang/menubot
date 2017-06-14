@@ -2,12 +2,12 @@
   "name": "menubot",
   "version": "1.0.0",
   "description": "menubot basic source",
-  "main": "bot_menu.js",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node bot_menu me",
-    "lunch": "node bot_menu me lunch",
-    "dinner": "node bot_menu me dinner"
+    "start": "node main me",
+    "lunch": "node main me lunch",
+    "dinner": "node main me dinner"
   },
   "repository": {
     "type": "git",
