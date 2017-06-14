@@ -1,0 +1,33 @@
+{
+  "name": "menubot",
+  "version": "1.0.0",
+  "description": "menubot basic source",
+  "main": "bot_menu.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node bot_menu me",
+    "lunch": "node bot_menu me lunch",
+    "dinner": "node bot_menu me dinner"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bugsmusic/menubot.git"
+  },
+  "keywords": [
+    "bot",
+    "menu",
+    "menubot",
+    "dooray",
+    "nhnent"
+  ],
+  "author": "godori <gej.okpo@gmail.com>",
+  "contributor": "jicjjang <jicjjang12@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bugsmusic/menubot/issues"
+  },
+  "homepage": "https://github.com/bugsmusic/menubot#readme",
+  "devDependencies": {
+    "easyimage": "^2.1.0"
+  }
+}
