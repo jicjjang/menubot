@@ -13,19 +13,10 @@ $ npm install
 
 # Usage
 
-#### 1. Make `config` file.
-~~~js
-// config/favorite.js
-// See the `example.favorite.js` file.
-module.exports = {
-  me: 'https://hook.dooray.com/services/[DoorayHookUrl]'  // hook url
-  // If you need more hook url, append url and set to npm scripts.
-}
+~~~javascript
+menubot = require('bot_menu');
+               
+menubot.getMenuTime('dinner');  // 'dinner' or 'lunch'. If not both, bot look the time. 
+menubot.imagecrop('https://hook.dooray.com/services/[DOORAY_MESSENGER_ID]');
 
-~~~
-
-#### 2. Start!
-
-~~~bash
-$ npm run start
 ~~~

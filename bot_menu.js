@@ -1,12 +1,7 @@
-// -------------------------- Command ARGV ---------------------------------------------------
-var command_args = process.argv[2];
-var cmd_time = process.argv[3];
-
 // -------------------------- Require ---------------------------------------------------
 const easyimg = require('easyimage');
 const Vision = require('@google-cloud/vision');
 const request = require('request');
-const favorite = require('./config/favorite')
 
 const projectId = 'menu-ocr';
 const visionClient = Vision({
@@ -14,21 +9,18 @@ const visionClient = Vision({
 });
 
 // -------------------------- Globbal Var ---------------------------------------------------
-var time = '';  // launch, dinner
+var time = '';  // lunch, dinner
 const fileName = './img/daily_menu/menu_part.png';  // [*커스텀수정필요] 이미지 잘라서 저장할 경로
 
 // -------------------------- Function ---------------------------------------------------
 
 module.exports = {
-  getMenuTime: function() {
+  getMenuTime: function(timeParam) {
     const hour = new Date().getHours();
-
-    time = (8 <= hour && hour <= 13)? 'lunch': 'dinner';
-
-    if (cmd_time === 'lunch') {
-      time = 'lunch';
-    } else if (cmd_time === 'dinner') {
-      time = 'dinner';
+    if (timeParam !== 'lunch' && timeParam !== 'dinner') {
+      time = (8 <= hour && hour <= 13)? 'lunch': 'dinner';
+    } else {
+      time = timeParam;
     }
   },
   getDayOffset: function() {
@@ -59,7 +51,7 @@ module.exports = {
     return offsetX;
   },
   getTimeOffset: function () {
-    const offsetYLunch = -345;
+    const offsetYLunch = -220;
     const offsetYDinner = 420;
 
     if (time === 'lunch') {
@@ -69,7 +61,7 @@ module.exports = {
     }
   },
   getCropHeight: function () {
-    const cropLunchHeight = 600;
+    const cropLunchHeight = 830;
     const cropDinnerHeight = 440;
 
     if (time === 'lunch') {
@@ -100,17 +92,8 @@ module.exports = {
     }
     return menu;
   },
-  sendBot: function (menu) {
-    var send_uri = "";
+  sendBot: function (menu, sendUrl) {
     var attachText = "";
-
-    if (command_args === "all") {
-      send_uri = favorite.all;
-    } else if (command_args === "team") {
-      send_uri = favorite.team;
-    } else {
-      send_uri = favorite.me;
-    }
 
     if (time === 'lunch') {
       attachText = '점심 메뉴';
@@ -119,7 +102,7 @@ module.exports = {
     }
 
     var options = {
-      uri: send_uri,
+      uri: sendUrl,
       method: 'POST',
       json: {
         botName: '메뉴봇 베타',
@@ -133,16 +116,17 @@ module.exports = {
 
     request(options, function (error, response, body) {
       if (!error && response.statusCode == 200) {
+        console.log('[' + time + ']' + ' menu sent success!');
       }
     });
   },
-  googleOCR: function (fileName) {
+  googleOCR: function (fileName, sendUrl) {
     var that = this;
     visionClient.detectText(fileName).then(results => {
-      that.sendBot(that.split(results[0][0]));
+      that.sendBot(that.split(results[0][0]), sendUrl);
     });
   },
-  imagecrop: function () {
+  imagecrop: function (sendUrl) {
     var offsetX = this.getDayOffset();
     var offsetY = this.getTimeOffset();
     var cropMenu = this.getCropHeight();
@@ -157,8 +141,8 @@ module.exports = {
       cropwidth: 115, cropheight: cropMenu,
       x: offsetX, y: offsetY
     }).then(image => {
-      this.googleOCR(fileName);
-      console.log('[' + time + ']' + ' menu sent success!');
+      this.googleOCR(fileName, sendUrl);
+        console.log('[' + time + ']' + ' menu sending...');
     }, err => {
       console.log(err);
     });
