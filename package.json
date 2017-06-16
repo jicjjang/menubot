@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/bugsmusic/menubot#readme",
   "devDependencies": {
+    "@google-cloud/vision": "^0.11.3",
     "easyimage": "^2.1.0"
   }
 }
