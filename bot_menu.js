@@ -14,22 +14,16 @@ const visionClient = Vision({
 });
 
 // -------------------------- Globbal Var ---------------------------------------------------
-var today = ''; // day
 var time = '';  // launch, dinner
-const fileName = 'img/daily_menu/menu_part.png';  // [*커스텀수정필요] 이미지 잘라서 저장할 경로
+const fileName = './img/daily_menu/menu_part.png';  // [*커스텀수정필요] 이미지 잘라서 저장할 경로
 
 // -------------------------- Function ---------------------------------------------------
 
 module.exports = {
   getMenuTime: function() {
-    var date = new Date();
-    var hour = date.getHours();
+    const hour = new Date().getHours();
 
-    if (8 <= hour && hour <= 13) {  // before 13 p.m.
-      time = 'lunch';
-    } else {
-      time = 'dinner';
-    }
+    time = (8 <= hour && hour <= 13)? 'lunch': 'dinner';
 
     if (cmd_time === 'lunch') {
       time = 'lunch';
@@ -38,32 +32,51 @@ module.exports = {
     }
   },
   getDayOffset: function() {
-    var date = new Date();
-    var day = date.getDay();
+    const day = new Date().getDay();
 
-    var offsetMon = 88;
-    var offSetTue = 221;
-    var offSetWed = 351;
-    var offSetThr = 484;
-    var offSetFri = 618;
+    const offsetXMon = -224;
+    const offsetXTue = -91;
+    const offsetXWed = 39;
+    const offsetXThr = 172;
+    const offsetXFri = 306;
 
-    var offset = 0;
+    var offsetX = 0;
 
     if(day === 0 || day === 6){
       return 0;
     } else if (day === 1) {
-      offset = offsetMon;
+      offsetX = offsetXMon;
     } else if (day === 2) {
-      offset = offSetTue;
+      offsetX = offsetXTue;
     } else if (day === 3) {
-      offset = offSetWed;
+      offsetX = offsetXWed;
     } else if (day === 4) {
-      offset = offSetThr;
+      offsetX = offsetXThr;
     } else if (day === 5) {
-      offset = offSetFri;
+      offsetX = offsetXFri;
     }
 
-    return offset;
+    return offsetX;
+  },
+  getTimeOffset: function () {
+    const offsetYLunch = -345;
+    const offsetYDinner = 420;
+
+    if (time === 'lunch') {
+      return offsetYLunch;
+    } else if (time === 'dinner') {
+      return offsetYDinner;
+    }
+  },
+  getCropHeight: function () {
+    const cropLunchHeight = 600;
+    const cropDinnerHeight = 440;
+
+    if (time === 'lunch') {
+      return cropLunchHeight;
+    } else if (time === 'dinner') {
+      return cropDinnerHeight;
+    }
   },
   split: function(text) {
     var tokens = text.split('\n');
@@ -111,11 +124,9 @@ module.exports = {
       json: {
         botName: '메뉴봇 베타',
         botIconImage: 'http://www.howtoboil.net/wp-content/uploads/2012/05/boil-rice.jpg', // 봇 이미지 url
-        attachments: [
-          {
-            text: attachText
-          }
-        ],
+        attachments: [{
+          text: attachText
+        }],
         text: ' ' + menu
       }
     };
@@ -132,36 +143,19 @@ module.exports = {
     });
   },
   imagecrop: function () {
-    var offSetX = this.getDayOffset();
-    var offSetY = 0;
-    var crop_menu = 0;
+    var offsetX = this.getDayOffset();
+    var offsetY = this.getTimeOffset();
+    var cropMenu = this.getCropHeight();
 
-    if (offSetX === 0) {
+    if (offsetX === 0) {
       console.log('주말엔 쉽니다.');
       return;
     }
 
-    var c_width = 115;
-    var c_height = 200;
-
-    var crop_3_menu = 600;
-    var crop_2_menu = 500
-
-    var offsetY_Lunch = 80;
-    var offsetY_Dinner = 950;
-
-    if (time === 'lunch') {
-      crop_menu = crop_3_menu;
-      offSetY = offsetY_Lunch;
-    } else if (time === 'dinner') {
-      crop_menu = crop_2_menu;
-      offSetY = offsetY_Dinner;
-    }
-
     easyimg.crop({
-      src: 'img/all_menu/menu.png', dst: 'img/daily_menu/menu_part.png', // 큰 메뉴 이미지 경로, 메뉴 부분 이미지 경로
-      cropwidth: c_width, cropheight: crop_3_menu,
-      x: -370 + offSetX + c_width/2, y: -755 + offSetY + crop_menu/2 + 20
+      src: './img/all_menu/menu.png', dst: './img/daily_menu/menu_part.png', // 큰 메뉴 이미지 경로, 메뉴 부분 이미지 경로
+      cropwidth: 115, cropheight: cropMenu,
+      x: offsetX, y: offsetY
     }).then(image => {
       this.googleOCR(fileName);
       console.log('[' + time + ']' + ' menu sent success!');
