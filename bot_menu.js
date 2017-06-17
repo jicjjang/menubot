@@ -92,7 +92,9 @@ module.exports = {
     }
     return menu;
   },
-  sendBot: function (menu, sendUrl) {
+  sendMenu: function (sendUrl, timeParam, optionsParam) {
+    this.getMenuTime(timeParam);
+
     var attachText = "";
 
     if (time === 'lunch') {
@@ -101,48 +103,56 @@ module.exports = {
       attachText = '저녁 식사 하실 분?';
     }
 
-    var options = {
-      uri: sendUrl,
-      method: 'POST',
-      json: {
-        botName: '메뉴봇 베타',
-        botIconImage: 'http://www.howtoboil.net/wp-content/uploads/2012/05/boil-rice.jpg', // 봇 이미지 url
-        attachments: [{
-          text: attachText
-        }],
-        text: ' ' + menu
-      }
-    };
+    var menuResult = this._imagecrop();
+    if (menuResult) {
+      var menu = menuResult.then((menu) => {
+        var options = {
+          botName: '메뉴봇 베타',
+          botIconImage: 'http://www.howtoboil.net/wp-content/uploads/2012/05/boil-rice.jpg',
+          attachments: [{
+            text: attachText
+          }],
+          text: ' ' + menu
+        };
 
-    request(options, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        console.log('[' + time + ']' + ' menu sent success!');
-      }
-    });
+        Object.assign(options, optionsParam);
+
+        request({
+          uri: sendUrl,
+          method: 'POST',
+          json: options
+        }, function (error, response, body) {
+          if (!error && response.statusCode == 200) {
+            console.log('[' + time + ']' + ' menu sent success!');
+          }
+        });
+      });
+    }
   },
-  googleOCR: function (fileName, sendUrl) {
+  _googleOCR: function (fileName) {
     var that = this;
-    visionClient.detectText(fileName).then(results => {
-      that.sendBot(that.split(results[0][0]), sendUrl);
+    return visionClient.detectText(fileName).then(results => {
+      console.log('[' + time + ']' + ' menu sending...');
+      return that.split(results[0][0]);
     });
   },
-  imagecrop: function (sendUrl) {
+  _imagecrop: function () {
     var offsetX = this.getDayOffset();
     var offsetY = this.getTimeOffset();
     var cropMenu = this.getCropHeight();
 
     if (offsetX === 0) {
       console.log('주말엔 쉽니다.');
-      return;
+      return false;
     }
 
-    easyimg.crop({
+    return easyimg.crop({
       src: './img/all_menu/menu.png', dst: './img/daily_menu/menu_part.png', // 큰 메뉴 이미지 경로, 메뉴 부분 이미지 경로
       cropwidth: 115, cropheight: cropMenu,
       x: offsetX, y: offsetY
     }).then(image => {
-      this.googleOCR(fileName, sendUrl);
-        console.log('[' + time + ']' + ' menu sending...');
+      console.log('[' + time + ']' + ' menu detecting...');
+      return this._googleOCR(fileName);
     }, err => {
       console.log(err);
     });

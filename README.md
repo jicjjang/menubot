@@ -15,8 +15,25 @@ $ npm install
 
 ~~~javascript
 menubot = require('bot_menu');
-               
-menubot.getMenuTime('dinner');  // 'dinner' or 'lunch'. If not both, bot look the time. 
-menubot.imagecrop('https://hook.dooray.com/services/[DOORAY_MESSENGER_ID]');
+                
+/**
+ * Crop the image, find the letter, and send the menu.
+ * @param DoorayId
+ * @param menuType
+ * @param options {
+ *   botName,
+ *   botIconImage,
+ *   attachments: [{
+ *     text
+ *   }]
+ * }
+ */
+menubot.sendMenu('https://hook.dooray.com/services/[DOORAY_MESSENGER_ID]', 'lunch', {
+    botName: 'test',
+    botIconImage: 'http://blahblah.com/test.jpg',
+    attachments: [{
+        text: 'Let\'s lunch time~!'
+    }]
+});
 
 ~~~

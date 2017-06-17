@@ -1,6 +1,6 @@
 {
   "name": "menubot",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "menubot basic source",
   "main": "main.js",
   "scripts": {
@@ -18,8 +18,10 @@
     "dooray",
     "nhnent"
   ],
-  "author": "godori <gej.okpo@gmail.com>",
-  "contributor": "jicjjang <jicjjang12@gmail.com>",
+  "authors": [
+    "godori <gej.okpo@gmail.com>",
+    "jicjjang <jicjjang12@gmail.com>"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/bugsmusic/menubot/issues"
