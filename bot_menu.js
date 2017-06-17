@@ -144,9 +144,8 @@ module.exports = {
     var cropMenu = this.getCropHeight();
 
     if (offsetX === 0) {
-      // console.log('주말엔 쉽니다.');
-      // return false;
-        offsetX = 306;
+      console.log('주말엔 쉽니다.');
+      return false;
     }
 
     return easyimg.crop({
