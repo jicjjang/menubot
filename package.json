@@ -1,6 +1,6 @@
 {
   "name": "menubot",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "menubot basic source",
   "main": "bot_menu.js",
   "scripts": {
@@ -27,7 +27,7 @@
     "url": "https://github.com/bugsmusic/menubot/issues"
   },
   "homepage": "https://github.com/bugsmusic/menubot#readme",
-  "devDependencies": {
+  "dependencies": {
     "@google-cloud/vision": "^0.11.3",
     "easyimage": "^2.1.0"
   }
