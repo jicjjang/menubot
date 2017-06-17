@@ -10,7 +10,7 @@ const visionClient = Vision({
 
 // -------------------------- Globbal Var ---------------------------------------------------
 var time = '';  // lunch, dinner
-const fileName = './img/daily_menu/menu_part.png';  // [*커스텀수정필요] 이미지 잘라서 저장할 경로
+var fileName = '';  // [*커스텀수정필요] 이미지 잘라서 저장할 경로
 
 // -------------------------- Function ---------------------------------------------------
 
@@ -92,7 +92,7 @@ module.exports = {
     }
     return menu;
   },
-  sendMenu: function (sendUrl, timeParam, optionsParam) {
+  sendMenu: function (sendUrl, timeParam, paths, optionsParam) {
     this.getMenuTime(timeParam);
 
     var attachText = "";
@@ -103,7 +103,7 @@ module.exports = {
       attachText = '저녁 식사 하실 분?';
     }
 
-    var menuResult = this._imagecrop();
+    var menuResult = this._imagecrop(paths.src, paths.dst);
     if (menuResult) {
       var menu = menuResult.then((menu) => {
         var options = {
@@ -136,18 +136,21 @@ module.exports = {
       return that.split(results[0][0]);
     });
   },
-  _imagecrop: function () {
+  _imagecrop: function (src, dst) {
+    fileName = dst;
+
     var offsetX = this.getDayOffset();
     var offsetY = this.getTimeOffset();
     var cropMenu = this.getCropHeight();
 
     if (offsetX === 0) {
-      console.log('주말엔 쉽니다.');
-      return false;
+      // console.log('주말엔 쉽니다.');
+      // return false;
+        offsetX = 306;
     }
 
     return easyimg.crop({
-      src: './img/all_menu/menu.png', dst: './img/daily_menu/menu_part.png', // 큰 메뉴 이미지 경로, 메뉴 부분 이미지 경로
+      src, dst, // base menu image path, croped menu image path
       cropwidth: 115, cropheight: cropMenu,
       x: offsetX, y: offsetY
     }).then(image => {

@@ -29,6 +29,9 @@ menubot = require('bot_menu');
  * }
  */
 menubot.sendMenu('https://hook.dooray.com/services/[DOORAY_MESSENGER_ID]', 'lunch', {
+    src: './img/all_menu/menu.png',
+    dst: './img/daily_menu/menu_part.png'
+}, {
     botName: 'test',
     botIconImage: 'http://blahblah.com/test.jpg',
     attachments: [{
