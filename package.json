@@ -1,6 +1,6 @@
 {
   "name": "menubot",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "menubot basic source",
   "main": "bot_menu.js",
   "scripts": {

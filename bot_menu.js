@@ -51,7 +51,7 @@ module.exports = {
     return offsetX;
   },
   getTimeOffset: function () {
-    const offsetYLunch = -220;
+    const offsetYLunch = -340;
     const offsetYDinner = 420;
 
     if (time === 'lunch') {
@@ -61,7 +61,7 @@ module.exports = {
     }
   },
   getCropHeight: function () {
-    const cropLunchHeight = 830;
+    const cropLunchHeight = 600;
     const cropDinnerHeight = 440;
 
     if (time === 'lunch') {
