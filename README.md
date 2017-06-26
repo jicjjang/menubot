@@ -4,7 +4,7 @@ NHNEnt messenger bot about launch, dinner menu.
 # Install
 ~~~bash
 $ brew install imagemagick
-$ git clone https://github.com/bugsmusic/menubot
+$ git clone https://github.com/jicjjang/menubot
 $ npm install
 ~~~
 
@@ -15,7 +15,7 @@ $ npm install
 
 ~~~javascript
 menubot = require('bot_menu');
-                
+
 /**
  * Crop the image, find the letter, and send the menu.
  * @param DoorayId
