@@ -1,6 +1,6 @@
 {
   "name": "menubot",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "menubot basic source",
   "main": "bot_menu.js",
   "scripts": {
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bugsmusic/menubot.git"
+    "url": "git+https://github.com/jicjjang/menubot.git"
   },
   "keywords": [
     "bot",
@@ -24,9 +24,9 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/bugsmusic/menubot/issues"
+    "url": "https://github.com/jicjjang/menubot/issues"
   },
-  "homepage": "https://github.com/bugsmusic/menubot#readme",
+  "homepage": "https://github.com/jicjjang/menubot#readme",
   "dependencies": {
     "@google-cloud/vision": "^0.11.3",
     "easyimage": "^2.1.0"
