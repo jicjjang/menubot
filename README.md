@@ -1,5 +1,5 @@
 # menubot
-NHNEnt messenger bot about launch, dinner menu.
+NHNEnt messenger bot about lunch, dinner menu.
 
 # Install
 ~~~bash
