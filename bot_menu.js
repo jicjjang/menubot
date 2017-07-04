@@ -61,8 +61,8 @@ module.exports = {
     }
   },
   getCropHeight: function () {
-    const cropLunchHeight = 600;
-    const cropDinnerHeight = 440;
+    const cropLunchHeight = 620;
+    const cropDinnerHeight = 360;
 
     if (time === 'lunch') {
       return cropLunchHeight;
@@ -74,19 +74,29 @@ module.exports = {
     var tokens = text.split('\n');
     var menu = '';
     var course_cnt = 0;
+    var menu_init = false;
+
+    if(!menu_init){
+      menu += "< 1번 코스 >----------------\n";
+      menu_init = true;
+    }
 
     for(var x = 0; x < tokens.length; x++) {
       if (tokens[x].includes('Kcal')) {
-        menu += tokens[x] + '\n';
-        menu += '-------------------\n';
+        // menu += tokens[x]+'\n';
+        if(time === 'lunch' && course_cnt < 3)
+          menu += "\n< "+(course_cnt+2)+"번 코스 >----------------\n";
+        else if (time === 'dinner' && course_cnt < 1)
+          menu += "\n< "+(course_cnt+2)+"번 코스 >----------------\n";
         course_cnt++;
-      } else {
+      }
+      else {
         menu += tokens[x] + '\n';
       }
 
       if (time === 'dinner' && course_cnt >= 2) {
         return menu;
-      } else if (time === 'lunch' && course_cnt >= 3) {
+      } else if (time === 'lunch' && course_cnt >= 4) {
         return menu;
       }
     }
