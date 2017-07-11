@@ -83,7 +83,7 @@ module.exports = {
 
     for(var x = 0; x < tokens.length; x++) {
       if (tokens[x].includes('Kcal')) {
-        // menu += tokens[x]+'\n';
+        menu += tokens[x]+'\n';
         if(time === 'lunch' && course_cnt < 3)
           menu += "\n< "+(course_cnt+2)+"번 코스 >----------------\n";
         else if (time === 'dinner' && course_cnt < 1)
