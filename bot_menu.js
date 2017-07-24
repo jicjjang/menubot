@@ -102,7 +102,7 @@ module.exports = {
     }
     return menu;
   },
-  sendMenu: function (sendUrl, timeParam, paths, optionsParam) {
+  sendMenu: function (sendUrl, timeParam, paths, optionsParam, callback) {
     this.getMenuTime(timeParam);
 
     var attachText = "";
@@ -134,6 +134,9 @@ module.exports = {
         }, function (error, response, body) {
           if (!error && response.statusCode == 200) {
             console.log('[' + time + ']' + ' menu sent success!');
+            if (!!callback && typeof callback === 'function') {
+              callback();
+            }
           }
         });
       });
